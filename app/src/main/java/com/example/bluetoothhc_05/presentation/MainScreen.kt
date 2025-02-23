@@ -39,7 +39,10 @@ import com.example.bluetoothhc_05.R
 fun MainScreen(
     modifier: Modifier,
     takePermission: ActivityResultLauncher<String>,
-    onBluetoothDisableClick:() -> Unit
+    onBluetoothDisableClick:() -> Unit,
+    onConnectToHc05Click:() -> Unit,
+    onSendCommandClickOn:() -> Unit,
+    onSendCommandClickOff:() -> Unit
 ) {
     Box(
         modifier = modifier
@@ -111,7 +114,7 @@ fun MainScreen(
                         .height(64.dp)
                         .alpha(0.7f),
                     shape = RoundedCornerShape(16.dp),
-                    onClick = {}
+                    onClick = { onConnectToHc05Click() }
                 ) {
                     Text("Connect to HC-05 Bluetooth module", color = Color.White, fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
                 }
@@ -129,7 +132,7 @@ fun MainScreen(
                         .height(64.dp)
                         .alpha(0.7f),
                     shape = RoundedCornerShape(16.dp),
-                    onClick = {}
+                    onClick = { onSendCommandClickOn()}
                 ) {
                     Text("LED ON", color = Color.White, fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
                 }
@@ -140,7 +143,7 @@ fun MainScreen(
                         .height(64.dp)
                         .alpha(0.7f),
                     shape = RoundedCornerShape(16.dp),
-                    onClick = {}
+                    onClick = { onSendCommandClickOff()}
                 ) {
                     Text("LED OFF", color = Color.White, fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
                 }

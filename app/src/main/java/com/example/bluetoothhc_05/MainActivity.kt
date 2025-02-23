@@ -25,6 +25,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.bluetoothhc_05.presentation.MainScreen
 import com.example.bluetoothhc_05.ui.theme.BluetoothHC05Theme
+import java.io.IOException
 import java.util.UUID
 
 class MainActivity : ComponentActivity() {
@@ -78,6 +79,39 @@ class MainActivity : ComponentActivity() {
                 Toast.makeText(applicationContext, "Bluetooth disabled", Toast.LENGTH_SHORT).show()
             }
         }
+        fun ConnectToHc05(){
+            btSocket =myBltDevice.createRfcommSocketToServiceRecord(MY_UUID)
+            try {
+                btSocket.connect()
+                Toast.makeText(this, "Connected to HC module", Toast.LENGTH_SHORT).show()
+            } catch (e: Exception) {
+                Toast.makeText(this, "Can't Connect to HC module", Toast.LENGTH_SHORT).show()
+            }
+        }
+        fun sendCommandOn() {
+            val input = "on"
+            if (btSocket != null) {
+                try{
+                    btSocket!!.outputStream.write(input.toByteArray())
+                    Toast.makeText(this, "Message sent:\n"+input, Toast.LENGTH_SHORT).show()
+                } catch(e: IOException) {
+                    e.printStackTrace()
+                    Toast.makeText(this, "Can't send", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+        fun sendCommandOff() {
+            val input = "off"
+            if (btSocket != null) {
+                try{
+                    btSocket!!.outputStream.write(input.toByteArray())
+                    Toast.makeText(this, "Message sent:\n"+input, Toast.LENGTH_SHORT).show()
+                } catch(e: IOException) {
+                    e.printStackTrace()
+                    Toast.makeText(this, "Can't send", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
         enableEdgeToEdge()
         setContent {
             BluetoothHC05Theme {
@@ -85,7 +119,10 @@ class MainActivity : ComponentActivity() {
                     MainScreen(
                         modifier = Modifier.fillMaxSize(),
                         takePermission = takePermission,
-                        onBluetoothDisableClick = {BluetoothDisable()}
+                        onBluetoothDisableClick = {BluetoothDisable()},
+                        onConnectToHc05Click = {ConnectToHc05()},
+                        onSendCommandClickOn = {sendCommandOn()},
+                        onSendCommandClickOff = {sendCommandOff()}
                     )
                 }
             }
